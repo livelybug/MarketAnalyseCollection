@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>市场趋势 2026–2028</title>
+<style>
+  :root {
+    --bg: #f6f5f2;
+    --card: #ffffff;
+    --ink: #1c1b19;
+    --ink-soft: #5c5852;
+    --line: #e3e0da;
+    --bear: #b3261e;       /* 下行 / 风险 */
+    --bear-bg: #fbeeeC;
+    --bull: #1b6e3d;       /* 上行 / 机会 */
+    --bull-bg: #e9f4ee;
+    --warn: #92620a;       /* 观察信号 */
+    --warn-bg: #faf3e3;
+    --accent: #2f4d8f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #171614;
+      --card: #201f1c;
+      --ink: #ece9e3;
+      --ink-soft: #a8a29a;
+      --line: #37342f;
+      --bear: #ff8a80;
+      --bear-bg: #3a2020;
+      --bull: #7fd6a0;
+      --bull-bg: #1e3228;
+      --warn: #e8c268;
+      --warn-bg: #383019;
+      --accent: #9db8ec;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font: 15px/1.65 -apple-system, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; padding: 28px 16px 48px; }
+  h1 { font-size: 26px; margin: 0 0 4px; }
+  .meta { color: var(--ink-soft); font-size: 13px; margin-bottom: 22px; }
+  .verdict {
+    background: var(--card); border: 1px solid var(--line); border-left: 4px solid var(--accent);
+    border-radius: 10px; padding: 14px 18px; margin-bottom: 28px; font-size: 16px;
+  }
+  .verdict b { color: var(--accent); }
+  h2 { font-size: 18px; margin: 34px 0 12px; }
+  h2 .n { color: var(--ink-soft); font-weight: 400; font-size: 13px; margin-left: 8px; }
+
+  /* 时间线 */
+  .tl { border-left: 2px solid var(--line); margin: 6px 0 0 6px; padding-left: 0; list-style: none; }
+  .tl li { position: relative; padding: 0 0 18px 22px; }
+  .tl li::before {
+    content: ""; position: absolute; left: -6px; top: 6px; width: 10px; height: 10px;
+    border-radius: 50%; background: var(--bg); border: 2px solid var(--ink-soft);
+  }
+  .tl li.hit::before { background: var(--bear); border-color: var(--bear); }
+  .tl li.next::before { background: var(--warn); border-color: var(--warn); }
+  .tl li.win::before { background: var(--bull); border-color: var(--bull); }
+  .tl .d { font-weight: 700; margin-right: 6px; white-space: nowrap; }
+  .tl .src { color: var(--ink-soft); font-size: 12px; }
+  .phase { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 20px; margin-left: 6px; vertical-align: 1px; }
+  .phase.past { background: var(--bear-bg); color: var(--bear); }
+  .phase.watch { background: var(--warn-bg); color: var(--warn); }
+  .phase.future { background: var(--bull-bg); color: var(--bull); }
+
+  /* 共识卡片 */
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
+  .card h3 { margin: 0 0 6px; font-size: 15px; }
+  .card .ev { margin: 6px 0 0; padding-left: 0; list-style: none; }
+  .card .ev li { margin: 4px 0; padding-left: 14px; position: relative; color: var(--ink-soft); font-size: 13.5px; }
+  .card .ev li::before { content: "·"; position: absolute; left: 2px; font-weight: 700; }
+  .tag { display: inline-block; font-size: 11px; color: var(--ink-soft); border: 1px solid var(--line);
+    border-radius: 4px; padding: 0 5px; margin-left: 6px; white-space: nowrap; }
+
+  /* 冲突对照 */
+  .conflict { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; }
+  .conflict .q { font-weight: 700; margin-bottom: 10px; }
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  @media (max-width: 620px) { .vs { grid-template-columns: 1fr; } }
+  .side { border-radius: 8px; padding: 10px 12px; font-size: 13.5px; }
+  .side .who { font-weight: 700; font-size: 12.5px; margin-bottom: 4px; letter-spacing: .02em; }
+  .side.a { background: var(--bear-bg); } .side.a .who { color: var(--bear); }
+  .side.b { background: var(--bull-bg); } .side.b .who { color: var(--bull); }
+  .vs-label { text-align: center; color: var(--ink-soft); font-size: 12px; margin: 4px 0; }
+
+  /* 观察清单 */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip { background: var(--warn-bg); color: var(--warn); border-radius: 20px; padding: 5px 14px; font-size: 13.5px; }
+
+  .note { color: var(--ink-soft); font-size: 12.5px; border-top: 1px solid var(--line); margin-top: 34px; padding-top: 12px; }
+
+  /* ===== 走势可能性图 ===== */
+  :root {
+    --series-1: #2a78d6; --series-2: #eb6834; --series-3: #1baf7a; --series-4: #eda100;
+    --dot-ink: #ffffff; --series-4-ink: #0b0b0b;
+    --hist-line: #52514e; --muted-ink: #898781; --grid-base: #c3c2b7;
+    --band-fill: rgba(11,11,11,0.045);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --series-1: #3987e5; --series-2: #d95926; --series-3: #199e70; --series-4: #c98500;
+      --dot-ink: #ffffff; --series-4-ink: #ffffff;
+      --hist-line: #c3c2b7; --grid-base: #383835;
+      --band-fill: rgba(255,255,255,0.05);
+    }
+  }
+  .chart-card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 14px 10px 6px 16px; margin-bottom: 14px; }
+  .chart-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; margin: 0 0 6px; padding-right: 6px; }
+  .lg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink-soft); white-space: nowrap; }
+  .lg-key { width: 16px; height: 2px; border-radius: 2px; flex: none; }
+  #fanChart { width: 100%; display: block; outline: none; border-radius: 6px; cursor: crosshair; }
+  #fanChart:focus-visible { outline: 2px solid var(--grid-base); }
+  .viz-tip { position: fixed; z-index: 30; pointer-events: none; background: var(--card); border: 1px solid var(--line);
+    border-radius: 8px; padding: 8px 10px; font-size: 12px; box-shadow: 0 4px 14px rgba(0,0,0,.14); max-width: 270px; display: none; }
+  .viz-tip .tt-date { font-weight: 700; margin-bottom: 4px; }
+  .tt-row { display: flex; align-items: center; gap: 6px; margin-top: 4px; }
+  .tt-key { width: 12px; height: 2px; border-radius: 2px; flex: none; }
+  .tt-name { color: var(--ink-soft); flex: 1; }
+  .tt-val { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tt-why { color: var(--ink-soft); font-size: 11px; margin: 1px 0 3px 18px; line-height: 1.45; }
+  .scen-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 12px; }
+  .scen { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .scen h3 { display: flex; align-items: center; gap: 8px; margin: 0 0 4px; font-size: 14px; flex-wrap: wrap; }
+  .scen .end { font-size: 12px; color: var(--ink-soft); margin: 0 0 8px; }
+  .scen .end b { color: var(--ink); font-variant-numeric: tabular-nums; }
+  .ph { display: grid; grid-template-columns: 20px 1fr; gap: 1px 8px; padding: 7px 0; border-top: 1px solid var(--line); }
+  .ph:first-of-type { border-top: none; padding-top: 0; }
+  .ph .pd { width: 16px; height: 16px; border-radius: 50%; margin-top: 2px; display: flex; align-items: center; justify-content: center;
+    color: var(--dot-ink); font-size: 10px; font-weight: 700; box-shadow: 0 0 0 2px var(--card); }
+  .ph.s4 .pd { color: var(--series-4-ink); }
+  .ph .pr { font-size: 11.5px; color: var(--ink-soft); line-height: 1.5; }
+  .ph .pr b { color: var(--ink); font-weight: 600; font-size: 12px; display: block; font-variant-numeric: tabular-nums; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>未来 1–2 年市场趋势（2026 Q4 → 2028）</h1>
+  <div class="meta">5 份 BOOK_OVERVIEW.md 交叉综述 · 综述日期 2026-11-22 · 来源：汤山老王 4 篇（10-21 / 10-31 / 11-09 / 11-18）+ 经济舱 1 篇（11-19，Druckenmiller 访谈解读）</div>
+
+  <div class="verdict">
+    一句话：<b>AI 基建的领涨时代正在收尾，风险主线从股票转到信用（债市），2027 年（尤其下半年）经济承压是两派共同指向的压力测试点；出清之后，价值迁往「用 AI 赚钱的应用层」。</b>但两派在同一批事实上给出相反的操作结论——见下方冲突。
+  </div>
+
+  <h2>未来两年走势：一条已走的路，四种可能<span class="n">2026-11 → 2028 · 纵轴＝大盘指数风格点位示意（2026-01 = 100，QQQ/纳指型）· 非真实数据 · 悬停或用 ← → 键查看每月各路径所处阶段与原因 · 图上编号圆点对应下方卡片编号</span></h2>
+  <div class="chart-card">
+    <div class="chart-legend" id="fanLegend"></div>
+    <div id="fanChart" tabindex="0" role="img" aria-label="示意走势图：灰色为已发生的共识路径，彩色为四种可能路径；每段的理由见下方编号卡片"></div>
+  </div>
+  <div class="scen-grid" id="scenCards"></div>
+
+  <h2>时间线<span class="n">已发生 → 接下来看什么</span></h2>
+  <ul class="tl">
+    <li><span class="d">2026-01</span>Druck 四大信号全部看多（Fed 不升息、铜多、涨跌家数强、信用利差窄），重押下单。<span class="src">经 11-19</span><span class="phase past">已发生</span></li>
+    <li><span class="d">2026-08</span>涨跌家数线见顶——指数靠少数巨头撑，市场内部先转弱。<span class="src">经 11-19</span><span class="phase past">已发生</span></li>
+    <li><span class="d">2026-10</span>全球科技股暴跌：芯片龙头单日 −30%、头部巨头单日蒸发 3 万亿人民币、A股科技指数腰斩；老王判定「只是皮肉出血，风暴未开始」。<span class="src">王 10-31</span><span class="phase past">已发生</span></li>
+    <li><span class="d">2026-11</span>黄仁勋出局风波（信任锚被抽走）→ 老王断言「史上最大泡沫破裂无疑」；Druck 宣布按兵不动、砍台积电 95%。「炒瓶颈」行情摸到供应链末梢（液冷/变压器被爆炒）。<span class="src">王 11-09 / 11-18 / 10-21，经 11-19</span><span class="phase past">已发生</span></li>
+    <li><span class="d">2026-12-09</span>Fed 点阵图——Druck 给出的第一个验证点。<span class="phase watch">观察点</span></li>
+    <li><span class="d">2027 H1</span>信用链考验期：SPV/循环融资到期、垃圾债利差走向、IPO 是「拖雷置换债务」还是正常融资；第一个抢跑者出现即「贝尔斯登时刻」。<span class="src">王 10-31</span><span class="phase watch">观察点</span></li>
+    <li><span class="d">2027 H2</span>四信号翻转指向的经济失望窗口；循环股/防御股已互换位置作佐证。<span class="src">经 11-19</span><span class="phase watch">观察点</span></li>
+    <li><span class="d">2027 → 2028</span>若完成出清：廉价基建（暗光纤式红利）滋养新一代轻资产应用赢家——「廉价到街边小店都嫌不值钱，才是新时代」。<span class="src">王 10-21 / 经 11-19</span><span class="phase future">出清后</span></li>
+  </ul>
+
+  <h2>四条共识趋势<span class="n">两派都认的方向 + 证据</span></h2>
+  <div class="grid">
+    <div class="card">
+      <h3>① AI 基建 / 芯片的领涨时代结束</h3>
+      <ul class="ev">
+        <li>「炒瓶颈」已滚到供应链最末梢：液冷、变压器被当核心信仰爆炒＝行情尾声信号<span class="tag">王 10-21</span></li>
+        <li>Druck 13F：芯片仓位 6 月底 14% → 9 月底 &lt;3%，台积电砍 95%<span class="tag">经 11-19</span></li>
+        <li>10 月芯片龙头单日 −30%<span class="tag">王 10-31</span></li>
+        <li>英伟达失去政治保护：两党围猎、25% 抽成暗账浮出<span class="tag">王 11-09</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>② 风险主线：从股票（皮肉）转到信用（筋骨）</h3>
+      <ul class="ev">
+        <li>信用利差 2.6% → 3.43%，Druck 四信号之一翻面<span class="tag">经 11-19</span></li>
+        <li>债幕下的结构：Anthropic 4500 亿不可撤销采购承诺、博通 630 亿 SPV＋残值担保、Meta 950 亿融资由英伟达/AMD/博通认购<span class="tag">王 10-31</span></li>
+        <li>超万亿 GPU 循环融资，抵押品是一年一贬值的显卡<span class="tag">王 11-18</span></li>
+        <li>600 亿芯片垃圾级债、谷歌自由现金流转负、甲骨文 950 亿债＋5180 亿承诺<span class="tag">王 10-21</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>③ 2027 承压，下半年是压力测试点</h3>
+      <ul class="ev">
+        <li>Druck 四信号 11 个月内全部翻面，指向 2027 下半年经济失望<span class="tag">经 11-19</span></li>
+        <li>循环股/防御股位置互换——市场已提前定价景气下行<span class="tag">经 11-19</span></li>
+        <li>反身性死亡螺旋写死在会计准则与追保条款里，股→债→股自动传导<span class="tag">王 10-31</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>④ 价值迁移：基建 → 应用（长期不唱空 AI）</h3>
+      <ul class="ev">
+        <li>巨蛋比喻：盖完巨蛋后，赚钱的是能卖满票的「歌手」<span class="tag">经 11-19</span></li>
+        <li>历史同构：暗光纤 97.5% 闲置→白菜价滋养谷歌/AWS；百年赢家是轻资产后发补位者<span class="tag">王 10-21</span></li>
+        <li>基建宿命：无垄断的基础技术终将「空气与水化」，赚社会平均利润<span class="tag">王 10-21</span></li>
+      </ul>
+    </div>
+  </div>
+
+  <h2>四处理论冲突<span class="n">同一批事实，相反结论</span></h2>
+
+  <div class="conflict">
+    <div class="q">冲突 1｜崩盘是「确定无疑」还是「看不清、不做空」？</div>
+    <div class="vs">
+      <div class="side a">
+        <div class="who">汤山老王（10-31 / 11-18）</div>
+        「人类史上最大的泡沫破裂无疑」；10 月暴跌只是皮肉出血，「金融风暴还没开始」。操作含义：撤离。
+      </div>
+      <div class="side b">
+        <div class="who">经济舱 · Druck（11-19）</div>
+        只是「看不清」，不是看空：经济仍强、AI 还在跑、很多标的已超卖洗净，做空赔率不划算。操作含义：观望，两边都不下注（并承认可能停错，2020 年有先例）。
+      </div>
+    </div>
+  </div>
+
+  <div class="conflict">
+    <div class="q">冲突 2｜Anthropic / OpenAI（模型实验室）是下一个赢家，还是骗局的中心？</div>
+    <div class="vs">
+      <div class="side b">
+        <div class="who">经济舱 · Druck（11-19）</div>
+        最看好的「歌手」就是模型实验室自己——价值链从基建迁到它们身上。
+      </div>
+      <div class="side a">
+        <div class="who">汤山老王（10-31）</div>
+        Anthropic 带 4500 亿不可撤销采购承诺 IPO ＋ 博通 SPV ＋ 残值担保 ＝ 趁 FOMO「用股票钱置换违约债务」的拖雷局，核心是关联方互保，不是外部真实付费。
+      </div>
+    </div>
+  </div>
+
+  <div class="conflict">
+    <div class="q">冲突 3｜怎么解读已经发生的 10 月暴跌？</div>
+    <div class="vs">
+      <div class="side a">
+        <div class="who">汤山老王（10-31）</div>
+        开场而非收场：股票是皮肉，债市才是筋骨——真正的雷在水下，「这只是刚刚开始」。
+      </div>
+      <div class="side b">
+        <div class="who">经济舱 · Druck（11-19）</div>
+        许多标的已被砸到「超卖、洗干净」——这正是他不做空的三理由之一。
+      </div>
+    </div>
+  </div>
+
+  <div class="conflict">
+    <div class="q">冲突 4｜危机的性质：2000 年式还是 2008 年式？（老王系列内部的张力）</div>
+    <div class="vs">
+      <div class="side b">
+        <div class="who">王 10-21（基建宿命框架）</div>
+        2000 年互联网式：瓶颈资产归零 → 廉价化 → 滋养后发赢家。崩盘是「必要的疯狂」，长期行情没结束。
+      </div>
+      <div class="side a">
+        <div class="who">王 10-31（次贷对照框架）</div>
+        2008 年次贷式：死亡螺旋传染债市与银行，影子银行的钱过半来自养老基金/保单池，「收益个人化、债务社会化」。
+      </div>
+    </div>
+  </div>
+
+  <h2>验证清单<span class="n">用这些信号判断谁对谁错</span></h2>
+  <div class="chips">
+    <span class="chip">12/9 Fed 点阵图</span>
+    <span class="chip">垃圾债 / 信用利差走向（两派唯一共同盯的信号）</span>
+    <span class="chip">2027 年 2 月 13F（Druck 是否回场）</span>
+    <span class="chip">第一个「抢跑者」：SPV 流拍 / 强制甩卖（贝尔斯登时刻）</span>
+    <span class="chip">巨头自由现金流（谷歌等）</span>
+    <span class="chip">英伟达政治结局（国会/反垄断）</span>
+    <span class="chip">IPO 窗口：正常融资还是拖雷置换</span>
+  </div>
+
+  <div class="note">
+    注：五份文档均由视频音频转写生成，文档自述存在同音字误差（如具体金额、公司名、−30% 等数字），引用前需对照原片或权威来源复核；本文为内容综述，非投资建议。图中纵轴为指数化示意点位（2026-01 = 100），四条可能线是把各家观点翻译成指数路径形态，原片并未给出点位预测。来源缩写：王＝汤山老王，经＝经济舱。
+  </div>
+
+</div>
+<script>
+(function () {
+  "use strict";
+  var months = [];
+  for (var y0 = 2026; y0 <= 2028; y0++) for (var m0 = 1; m0 <= 12; m0++) months.push(y0 + "-" + (m0 < 10 ? "0" : "") + m0);
+  var TODAY = months.indexOf("2026-11");
+  function mi(k) { return months.indexOf(k); }
+  function A(pairs) { return pairs.map(function (p) { return [mi(p[0]), p[1]]; }); }
+
+  // anchors: [month, 点位(示意)]；phases: [起, 止, 原因, 出处]
+  var S = [
+    { key: "hist", color: "var(--hist-line)", name: "已发生（共识）", short: "已发生",
+      anchors: A([["2026-01", 100], ["2026-04", 108], ["2026-08", 121], ["2026-09", 115], ["2026-10", 86], ["2026-11", 90]]),
+      phases: [
+        ["2026-01", "2026-08", "「炒瓶颈」上涨：资金沿供应链追卡点（封装→电力→液冷被爆炒）", "王 10-21"],
+        ["2026-08", "2026-11", "涨跌家数 8 月见顶 → 10 月暴跌（芯片龙头单日 −30%、A股科技腰斩）→ 企稳观望", "经 11-19 / 王 10-31"]] },
+    { key: "s1", color: "var(--series-1)", name: "可能A · 老王：2008 式危机", short: "2008式",
+      anchors: A([["2026-11", 90], ["2027-02", 99], ["2027-05", 96], ["2027-08", 70], ["2027-11", 56], ["2028-02", 58], ["2028-07", 67], ["2028-12", 75]]),
+      phases: [
+        ["2026-11", "2027-05", "熊市反弹：趁 FOMO 用 IPO 股票钱置换到期债务（拖雷）", "王 10-31"],
+        ["2027-05", "2027-11", "债市引爆：第一个抢跑者→追保→断贷→股债双杀", "王 10-31"],
+        ["2027-11", "2028-12", "印钞修复：收益个人化、债务社会化，缓慢爬出深坑", "王 10-31"]] },
+    { key: "s2", color: "var(--series-2)", name: "可能B · 老王：2000 式重生", short: "2000式",
+      anchors: A([["2026-11", 90], ["2027-03", 80], ["2027-07", 71], ["2027-11", 64], ["2028-02", 68], ["2028-07", 82], ["2028-12", 91]]),
+      phases: [
+        ["2026-11", "2027-11", "持续出清：炒到末梢的瓶颈资产归零，基建「空气与水化」", "王 10-21"],
+        ["2027-11", "2028-02", "筑底：「廉价到街边小店都嫌不值钱」— 暗光纤时刻", "王 10-21"],
+        ["2028-02", "2028-12", "应用新牛市：廉价基建滋养轻资产后发赢家", "王 10-21 / 经 11-19"]] },
+    { key: "s3", color: "var(--series-3)", name: "可能C · Druck：晚周期放缓", short: "晚周期",
+      anchors: A([["2026-11", 90], ["2027-03", 93], ["2027-07", 87], ["2027-11", 79], ["2028-03", 85], ["2028-08", 94], ["2028-12", 103]]),
+      phases: [
+        ["2026-11", "2027-06", "高位震荡：经济仍强、AI capex 未停，但广度弱、信用利差 2.6→3.43%", "经 11-19"],
+        ["2027-06", "2027-12", "经济失望：四信号翻面指向 2027 下半年，循环股/防御股已互换", "经 11-19"],
+        ["2027-12", "2028-12", "复苏：AI 应用接棒、观望资金回场（12/9 点阵图、2月 13F 验证）", "经 11-19"]] },
+    { key: "s4", color: "var(--series-4)", name: "可能D · Druck 停错：2020 式 V 反", short: "V型",
+      anchors: A([["2026-11", 90], ["2027-01", 84], ["2027-05", 97], ["2027-09", 105], ["2028-03", 113], ["2028-12", 125]]),
+      phases: [
+        ["2026-11", "2027-01", "末段洗盘：超卖已洗净、做空赔率不划算", "经 11-19"],
+        ["2027-01", "2028-12", "V 型新高：经济强 + AI 仍在跑 → 停手被证明停错（2020 先例）", "经 11-19"]] }
+  ];
+  S.forEach(function (s) { s.ph = s.phases.map(function (p) { return [mi(p[0]), mi(p[1]), p[2], p[3]]; }); });
+
+  function valAt(s, i) {
+    var a = s.anchors;
+    if (i < a[0][0] || i > a[a.length - 1][0]) return null;
+    for (var k = 0; k < a.length - 1; k++) {
+      var x0 = a[k][0], x1 = a[k + 1][0];
+      if (i >= x0 && i <= x1) { var t = x1 === x0 ? 0 : (i - x0) / (x1 - x0); return a[k][1] + (a[k + 1][1] - a[k][1]) * t; }
+    }
+    return null;
+  }
+  function phaseAt(s, i) {
+    for (var k = 0; k < s.ph.length; k++) if (i >= s.ph[k][0] && i <= s.ph[k][1]) return s.ph[k];
+    return null;
+  }
+
+  var NS = "http://www.w3.org/2000/svg";
+  var wrap = document.getElementById("fanChart");
+  var tip = document.createElement("div"); tip.className = "viz-tip"; document.body.appendChild(tip);
+  var svg = null, chG = null, chLine = null, dotEls = [];
+  var H = 390, mL = 40, mT = 38, mB = 30, mR = 14, W = 0, pw = 0, phh = 0, cur = -1;
+  var xOf = function (i) { return mL + pw * i / (months.length - 1); };
+  var yOf = function (v) { return mT + phh * (1 - (v - 50) / 80); };
+
+  function el(n, at, st) {
+    var e = document.createElementNS(NS, n);
+    for (var k in at) e.setAttribute(k, at[k]);
+    if (st) for (var k2 in st) e.style[k2] = st[k2];
+    return e;
+  }
+  function txt(x, y, str, size, fill, anchor, weight) {
+    var t = el("text", { x: x, y: y, "text-anchor": anchor || "start" });
+    t.style.font = size + "px -apple-system,'PingFang SC','Hiragino Sans GB',sans-serif";
+    t.style.fill = fill; t.style.fontWeight = weight || "400";
+    t.textContent = str; return t;
+  }
+
+  function draw() {
+    hideTip();
+    wrap.innerHTML = "";
+    W = wrap.clientWidth; mR = W >= 640 ? 118 : 14;
+    pw = W - mL - mR; phh = H - mT - mB;
+    svg = el("svg", { width: W, height: H, viewBox: "0 0 " + W + " " + H });
+    wrap.appendChild(svg);
+    var i, v;
+
+    // 窗口带：27H1 债市考验 / 27H2 经济失望
+    [[mi("2027-01"), mi("2027-06"), "27H1 债市考验 · 王10-31"],
+     [mi("2027-07"), mi("2027-12"), "27H2 经济失望 · 经11-19"]].forEach(function (b) {
+      svg.appendChild(el("rect", { x: xOf(b[0]), y: mT, width: xOf(b[1]) - xOf(b[0]), height: phh }, { fill: "var(--band-fill)" }));
+      if (xOf(b[1]) - xOf(b[0]) > 100)
+        svg.appendChild(txt((xOf(b[0]) + xOf(b[1])) / 2, mT + 14, b[2], 10, "var(--muted-ink)", "middle"));
+    });
+
+    // 网格与轴
+    [60, 80, 100, 120].forEach(function (gv) {
+      svg.appendChild(el("line", { x1: mL, x2: mL + pw, y1: yOf(gv), y2: yOf(gv) }, { stroke: "var(--line)", "stroke-width": "1" }));
+      svg.appendChild(txt(mL - 8, yOf(gv) + 3.5, String(gv), 11, "var(--muted-ink)", "end"));
+    });
+    svg.appendChild(el("line", { x1: mL, x2: mL + pw, y1: mT + phh, y2: mT + phh }, { stroke: "var(--grid-base)", "stroke-width": "1" }));
+    [0, 6, 12, 18, 24, 30, 35].forEach(function (ti) {
+      var anc = ti === 0 ? "start" : (ti === 35 ? "end" : "middle");
+      svg.appendChild(txt(xOf(ti), mT + phh + 18, months[ti], 11, "var(--muted-ink)", anc));
+    });
+
+    // 参考线：广度见顶 / 10月暴跌 / 今天
+    if (pw >= 520) {
+      [[mi("2026-08"), "08 广度见顶", 16], [mi("2026-10"), "10 暴跌", 30]].forEach(function (r) {
+        svg.appendChild(el("line", { x1: xOf(r[0]), x2: xOf(r[0]), y1: mT, y2: mT + phh }, { stroke: "var(--grid-base)", "stroke-width": "1" }));
+        svg.appendChild(txt(xOf(r[0]), r[2], r[1], 10, "var(--muted-ink)", "middle"));
+      });
+    }
+    svg.appendChild(el("line", { x1: xOf(TODAY), x2: xOf(TODAY), y1: mT - 6, y2: mT + phh }, { stroke: "var(--muted-ink)", "stroke-width": "1" }));
+    svg.appendChild(txt(xOf(TODAY), 16, "今天 11-22", 10.5, "var(--muted-ink)", pw >= 520 ? "start" : "middle"));
+
+    // 折线
+    S.forEach(function (s) {
+      var pts = [];
+      for (i = 0; i < months.length; i++) { v = valAt(s, i); if (v != null) pts.push(xOf(i).toFixed(1) + "," + yOf(v).toFixed(1)); }
+      svg.appendChild(el("polyline", { points: pts.join(" ") }, { fill: "none", stroke: s.color, "stroke-width": "2", "stroke-linejoin": "round", "stroke-linecap": "round" }));
+    });
+    svg.appendChild(el("circle", { cx: xOf(TODAY), cy: yOf(90), r: 4 }, { fill: "var(--hist-line)", stroke: "var(--card)", "stroke-width": "2" }));
+
+    // 线尾直接标注（窄屏隐藏，图例兜底）
+    if (W >= 640) {
+      S.slice(1).forEach(function (s) {
+        var li = months.length - 1, lv = valAt(s, li), ly = yOf(lv);
+        svg.appendChild(el("circle", { cx: xOf(li) + 8, cy: ly, r: 4 }, { fill: s.color, stroke: "var(--card)", "stroke-width": "2" }));
+        svg.appendChild(txt(xOf(li) + 18, ly + 3.5, s.short + " ≈ " + Math.round(lv), 11.5, "var(--ink)", "start", "600"));
+      });
+    }
+
+    // 阶段编号圆点（对应卡片编号）
+    S.forEach(function (s, si) {
+      s.ph.forEach(function (p, n) {
+        var mid = Math.round((p[0] + p[1]) / 2), mv = valAt(s, mid);
+        if (mv == null) return;
+        svg.appendChild(el("circle", { cx: xOf(mid), cy: yOf(mv), r: 8 }, { fill: s.color, stroke: "var(--card)", "stroke-width": "2" }));
+        svg.appendChild(txt(xOf(mid), yOf(mv) + 3.5, String(n + 1), 10, si === 4 ? "var(--series-4-ink)" : "var(--dot-ink)", "middle", "700"));
+      });
+    });
+
+    // 十字线 + 各线读点
+    chG = el("g", { visibility: "hidden" });
+    chLine = el("line", { y1: mT, y2: mT + phh }, { stroke: "var(--muted-ink)", "stroke-width": "1" });
+    chG.appendChild(chLine);
+    dotEls = S.map(function (s) {
+      var d = el("circle", { r: 4, visibility: "hidden" }, { fill: s.color, stroke: "var(--card)", "stroke-width": "1.5" });
+      chG.appendChild(d); return d;
+    });
+    svg.appendChild(chG);
+  }
+
+  function fmt(k) { var p = k.split("-"); return p[0] + "年" + parseInt(p[1], 10) + "月"; }
+  function showTip(i, cx, cy) {
+    cur = i;
+    var xs = xOf(i);
+    chLine.setAttribute("x1", xs); chLine.setAttribute("x2", xs);
+    chG.setAttribute("visibility", "visible");
+    dotEls.forEach(function (d, si) {
+      var v = valAt(S[si], i);
+      if (v == null) { d.setAttribute("visibility", "hidden"); }
+      else { d.setAttribute("visibility", "visible"); d.setAttribute("cx", xs); d.setAttribute("cy", yOf(v)); }
+    });
+    while (tip.firstChild) tip.removeChild(tip.firstChild);
+    var hd = document.createElement("div"); hd.className = "tt-date";
+    hd.textContent = fmt(months[i]) + (i <= TODAY ? "（已发生）" : "");
+    tip.appendChild(hd);
+    S.forEach(function (s) {
+      var v = valAt(s, i); if (v == null) return;
+      var row = document.createElement("div"); row.className = "tt-row";
+      var k = document.createElement("span"); k.className = "tt-key"; k.style.background = s.color;
+      var nm = document.createElement("span"); nm.className = "tt-name"; nm.textContent = s.short;
+      var vl = document.createElement("span"); vl.className = "tt-val"; vl.textContent = String(Math.round(v));
+      row.appendChild(k); row.appendChild(nm); row.appendChild(vl); tip.appendChild(row);
+      var p = phaseAt(s, i);
+      if (p) { var w = document.createElement("div"); w.className = "tt-why"; w.textContent = p[2] + "（" + p[3] + "）"; tip.appendChild(w); }
+    });
+    tip.style.display = "block";
+    var tw = tip.offsetWidth, th = tip.offsetHeight, vw = window.innerWidth;
+    var lx = cx + 16; if (lx + tw > vw - 8) lx = cx - tw - 16;
+    var ly = cy - th - 12; if (ly < 8) ly = cy + 18;
+    tip.style.left = lx + "px"; tip.style.top = ly + "px";
+  }
+  function hideTip() { if (chG) chG.setAttribute("visibility", "hidden"); tip.style.display = "none"; cur = -1; }
+
+  wrap.addEventListener("pointermove", function (e) {
+    if (!svg) return;
+    var r = svg.getBoundingClientRect();
+    var i = Math.round((e.clientX - r.left - mL) / pw * (months.length - 1));
+    i = Math.max(0, Math.min(months.length - 1, i));
+    showTip(i, e.clientX, e.clientY);
+  });
+  wrap.addEventListener("pointerleave", hideTip);
+  wrap.addEventListener("blur", hideTip);
+  wrap.addEventListener("keydown", function (e) {
+    if (e.key !== "ArrowLeft" && e.key !== "ArrowRight") return;
+    e.preventDefault();
+    var i = cur < 0 ? TODAY : cur + (e.key === "ArrowRight" ? 1 : -1);
+    i = Math.max(0, Math.min(months.length - 1, i));
+    var r = svg.getBoundingClientRect();
+    showTip(i, r.left + xOf(i), r.top + yOf(valAt(S[1], i) || 90));
+  });
+  var rt; window.addEventListener("resize", function () { clearTimeout(rt); rt = setTimeout(draw, 120); });
+
+  // 图例
+  var lg = document.getElementById("fanLegend");
+  S.forEach(function (s) {
+    var it = document.createElement("span"); it.className = "lg-item";
+    var k = document.createElement("span"); k.className = "lg-key"; k.style.background = s.color;
+    var t = document.createElement("span"); t.textContent = s.name;
+    it.appendChild(k); it.appendChild(t); lg.appendChild(it);
+  });
+
+  // 阶段卡片（图的表格视图：每段走势 + 原因）
+  var cg = document.getElementById("scenCards");
+  S.forEach(function (s) {
+    var c = document.createElement("div"); c.className = "scen";
+    var h = document.createElement("h3");
+    var k = document.createElement("span"); k.className = "lg-key"; k.style.background = s.color;
+    var hn = document.createElement("span"); hn.textContent = s.name;
+    h.appendChild(k); h.appendChild(hn); c.appendChild(h);
+    var end = document.createElement("p"); end.className = "end";
+    var last = s.anchors[s.anchors.length - 1];
+    end.textContent = "路径终点 " + fmt(months[last[0]]) + " 点位 ≈ ";
+    var b = document.createElement("b"); b.textContent = String(last[1]);
+    end.appendChild(b); c.appendChild(end);
+    s.ph.forEach(function (p, n) {
+      var row = document.createElement("div"); row.className = "ph" + (s.key === "s4" ? " s4" : "");
+      var pd = document.createElement("span"); pd.className = "pd"; pd.style.background = s.color; pd.textContent = String(n + 1);
+      var pr = document.createElement("div"); pr.className = "pr";
+      var bb = document.createElement("b");
+      bb.textContent = months[p[0]].slice(2) + " → " + months[p[1]].slice(2) + " · " + Math.round(valAt(s, p[0])) + "→" + Math.round(valAt(s, p[1]));
+      var rs = document.createElement("span"); rs.textContent = p[2] + "（" + p[3] + "）";
+      pr.appendChild(bb); pr.appendChild(rs);
+      row.appendChild(pd); row.appendChild(pr); c.appendChild(row);
+    });
+    cg.appendChild(c);
+  });
+
+  draw();
+})();
+</script>
+</body>
+</html>
