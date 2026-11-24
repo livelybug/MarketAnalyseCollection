@@ -16,3 +16,12 @@
 
 * 不要下载视频，不要用画面处理，视频已有字幕。
 * `OUT_DIR` 下新建目录，所有产物放在新目录下
+
+# Bilibili
+* Video_URL=https://youtu.be/QIqMrLGiJDc?si=SlfS15uxAfaaHwHs
+* OUT_DIR=交易系统
+
+/video-downloader 。 用Chrome 已登录的 B站 cookie 下载 Video_URL 的字幕 。 
+
+* 下载完成后，在这个文件夹 OUT_DIR  下创建一个新的文件夹，把下载的产物放在新的文件夹中 
+* fanout subagents. 

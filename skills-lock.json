@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "skills": {
+    "video-downloader": {
+      "source": "kangarooking/kangarooking-skills",
+      "commit": "34a403ed2040c5977f17fbaee9e6249b70d954bc",
+      "sourceType": "github",
+      "skillPath": "video-downloader/SKILL.md",
+      "computedHash": "813ae012a7d1a6a2ea864c7dfc4a7f8d7697ed14d2a12c2888954337561bbf62"
+    }
+  }
+}
